@@ -1,12 +1,23 @@
 const express=require('express');
 const path=require('path');
 const mongoose=require('mongoose');
+const bodyParser=require('body-parser');
+
+
+
+
+
+
+
+
+// init app
+const app=express();
 
 //connecting to database
 
 mongoose.connect('mongodb://localhost/nodekb');
 
-let db=mongoose.connection;
+var db=mongoose.connection;
 
 db.once('open',()=>{
     console.log('connected to mongo db');
@@ -20,9 +31,6 @@ db.on('error',(err)=>{
 
 
 
-// init app
-const app=express();
-
 //bring in articles
 
 let article=require('./models/article');
@@ -31,6 +39,10 @@ let article=require('./models/article');
 // load view engine
 app.set('views',path.join(__dirname,'views'));
 app.set('view engine','pug');
+
+//body-parser middleware
+app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.json());
 
 
 
@@ -51,35 +63,41 @@ app.get('/',(req,res)=>{
         }
 
     });
-    /*let articles=[{
-        id:"1",
-        title:"art-1",
-        author:"Pranav"
-    },
-    {
-        id:"2",
-        title:"art-2",
-        author:"john doe"
-    },
-    {
-        id:"3",
-        title:"art-3",
-        author:"brad traversy"
-    }];*/
+
 
 });
 
 // add route
 
 app.get('/article/add',(req,res)=>{
-    res.render('add',{
+    res.render('add_article',{
         title:'Add new article'
     });
+
+
+
 });
-/*
+
 app.post('/article/add',(req,res)=>{
-    console.log('gotta');
-})
-*/
+
+    article=new article();
+    article.title=req.body.title;
+    article.author=req.body.author;
+    article.body=req.body.body;
+    article.save((err)=>{
+        if(err){
+            console.log(err);
+            return;
+        }
+        else{
+            res.redirect('/');
+        }
+    });
+
+    console.log(req.body.author);
+
+
+});
+
 
 app.listen(PORT);
