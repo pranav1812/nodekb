@@ -39,14 +39,14 @@ var PORT=3000;
 
 // home route
 app.get('/',(req,res)=>{
-    article.find({},(err,res)=>{
+    article.find({},(err,articles)=>{
         if(err){
             throw err;
         }
         else{
             res.render('index',{
                 title:'hello world',
-                articles:article
+                articles:articles
             });
         }
 
