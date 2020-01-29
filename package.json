@@ -1,0 +1,17 @@
+{
+  "name": "traversy_media_playlist",
+  "version": "1.0.0",
+  "description": "simple knowledge based app",
+  "main": "app.js",
+  "git repository": "https://github.com/pranav1812/nodekb.git",
+  "scripts": {
+    "start": "node app"
+  },
+  "author": "Pranav Vohra",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.17.1",
+    "mongoose": "^5.8.10",
+    "pug": "^2.0.4"
+  }
+}
